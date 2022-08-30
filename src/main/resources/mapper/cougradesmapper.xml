@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyu.demo.mapper.CougradesMapper">
+    <resultMap id="gradesMap" type="com.wyu.demo.entity.Cougrades">
+        <id column="studentid" property="studentid"></id>
+        <result column="courseid" property="courseid"></result>
+        <result column="grades" property="grades"></result>
+        <result column="crousetime" property="crousetime"></result>
+        <result column="remark" property="remark"></result>
+        <result column="courseid" property="course.courseid"></result>
+        <result column="coursename" property="course.coursename"></result>
+        <result column="leibie" property="course.leibie"></result>
+        <result column="khfangshi" property="course.khfangshi"></result>
+        <result column="credits" property="course.credits"></result>
+        <result column="remark" property="course.remark"></result>
+        <result column="studentid" property="student.studentid"></result>
+        <result column="name" property="student.name"></result>
+        <result column="gender" property="student.gender"></result>
+    </resultMap>
+<!--    查询某一学生的成绩情况-->
+    <select id="findGradesByStudentId" resultMap="gradesMap">
+        SELECT * FROM cougrades,course WHERE cougrades.courseid=course.courseid AND cougrades.studentid=#{studentid}
+    </select>
+<!--查询所有学生的成绩情况 （三表联查）-->
+    <select id="allStudentGrades" resultMap="gradesMap">
+        SELECT cougrades.*,student.`name`,student.gender,course.coursename FROM cougrades,student,course WHERE cougrades.studentid=student.studentid AND cougrades.courseid=course.courseid
+    </select>
+<!--    查询成绩不及格的学生名单-->
+    <select id="findFailed" resultMap="gradesMap">
+        SELECT student.studentid,student.`name`,cougrades.grades,course.coursename FROM student,cougrades,course WHERE student.studentid=cougrades.studentid and grades &lt;'60' and course.courseid=cougrades.courseid
+    </select>
+</mapper>

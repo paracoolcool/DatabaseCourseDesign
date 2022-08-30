@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wyu.demo.mapper.StudentMapper">
+    <resultMap id="studentMap" type="com.wyu.demo.entity.Student">
+        <id column="studentid" property="studentid"></id>
+        <result column="name" property="name"></result>
+        <result column="gender" property="gender"></result>
+        <result column="birth" property="birth"></result>
+        <result column="fromplace" property="fromplace"></result>
+        <result column="deptid" property="deptid"></result>
+        <result column="ptface" property="ptface"></result>
+        <result column="iszhusu" property="iszhusu"></result>
+        <result column="sushephone" property="sushephone"></result>
+        <result column="photo" property="photo"></result>
+        <result column="deptid" property="dept.deptid"></result>
+        <result column="deptname" property="dept.deptname"></result>
+        <result column="remark" property="dept.remark"></result>
+    </resultMap>
+
+    <select id="findAllStudent" resultMap="studentMap">
+        SELECT * FROM student,dept where student.deptid=dept.deptid
+    </select>
+    <select id="findAllFromPlace" resultMap="studentMap">
+        SELECT * FROM student,dept WHERE student.fromplace=#{fromplace} AND student.deptid=dept.deptid
+    </select>
+
+</mapper>
